@@ -1,45 +1,75 @@
-import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { RequestStatus, TConstructorIngredient } from '@utils-types';
+import { FC, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  resetConstructor,
+  selectConstructorData
+} from '../../services/slices/constructorBurger/constructorBurgerSlice';
+import {
+  clearOrder,
+  selectOrderDetails,
+  selectOrderStatus
+} from '../../services/slices/orderSlice/orderSlice';
+import { selectAuthUser } from '../../services/slices/user/userSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import { createOrder } from '../../services/slices/orderSlice/asynk-orderSlice';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
+  const constructorData = useSelector(selectConstructorData).constructorItems;
+  const isOrderLoading =
+    useSelector(selectOrderStatus) === RequestStatus.Loading; // Проверка статуса
+  const orderDetails = useSelector(selectOrderDetails);
+  const userName = useSelector(selectAuthUser)?.name || '';
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Обработка нажатия кнопки заказа
+  const handleOrderClick = () => {
+    if (!userName) {
+      navigate('/login');
+      return;
+    }
+
+    const { bun, ingredients } = constructorData;
+    if (!bun) {
+      alert('Сначала соберите свой вкуснейший бургер!');
+      return;
+    }
+
+    const orderItems = [
+      bun._id,
+      ...ingredients.map((ingredient) => ingredient._id),
+      bun._id
+    ];
+    dispatch(createOrder(orderItems));
   };
 
-  const orderRequest = false;
-
-  const orderModalData = null;
-
-  const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+  // Закрытие модального окна заказа
+  const handleCloseModal = () => {
+    dispatch(clearOrder());
+    dispatch(resetConstructor());
+    navigate('/', { replace: true });
   };
-  const closeOrderModal = () => {};
 
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
-
-  return null;
+  // Подсчет стоимости бургера
+  const totalPrice = useMemo(() => {
+    const bunPrice = constructorData.bun ? constructorData.bun.price * 2 : 0;
+    const ingredientsPrice = constructorData.ingredients.reduce(
+      (sum, ingredient) => sum + ingredient.price,
+      0
+    );
+    return bunPrice + ingredientsPrice;
+  }, [constructorData]);
 
   return (
     <BurgerConstructorUI
-      price={price}
-      orderRequest={orderRequest}
-      constructorItems={constructorItems}
-      orderModalData={orderModalData}
-      onOrderClick={onOrderClick}
-      closeOrderModal={closeOrderModal}
+      price={totalPrice}
+      orderRequest={isOrderLoading}
+      constructorItems={constructorData}
+      orderModalData={orderDetails}
+      onOrderClick={handleOrderClick}
+      closeOrderModal={handleCloseModal}
     />
   );
 };

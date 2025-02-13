@@ -5,7 +5,7 @@ import { Preloader } from '@ui';
 import {
   selectAuthUser,
   selectAuthStatus
-} from '../services/slices/user/userSlice';
+} from '../services/slices/user/authSlice';
 import { RequestStatus } from '@utils-types';
 
 type ProtectedRouteProps = {

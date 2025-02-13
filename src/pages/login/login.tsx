@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   clearAuthError,
   selectAuthError
-} from '../../services/slices/user/userSlice';
+} from '../../services/slices/user/authSlice';
 import { loginUser } from '../../services/slices/user/asynk-userSlice';
 
 export const Login: FC = () => {

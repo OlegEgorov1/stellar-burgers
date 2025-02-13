@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from '../../services/store';
 import {
   selectAuthError,
   clearAuthError
-} from '../../services/slices/user/userSlice';
+} from '../../services/slices/user/authSlice';
 import { registerUser } from '../../services/slices/user/asynk-userSlice';
 
 export const Register: FC = () => {

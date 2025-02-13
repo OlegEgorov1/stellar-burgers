@@ -25,7 +25,7 @@ import {
 import { useEffect } from 'react';
 import {} from '../../services/slices/ingredientsSlice/ingredientsSlice';
 import { ProtectedRoute } from '../protected-route';
-import {} from '../../services/slices/user/userSlice';
+import {} from '../../services/slices/user/authSlice';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice/asynk-Ingredient';
 import { getUser } from '../../services/slices/user/asynk-userSlice';
 

@@ -11,7 +11,7 @@ import {
   selectOrderDetails,
   selectOrderStatus
 } from '../../services/slices/orderSlice/orderSlice';
-import { selectAuthUser } from '../../services/slices/user/userSlice';
+import { selectAuthUser } from '../../services/slices/user/authSlice';
 import { useDispatch, useSelector } from '../../services/store';
 import { createOrder } from '../../services/slices/orderSlice/asynk-orderSlice';
 

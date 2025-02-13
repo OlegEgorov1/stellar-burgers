@@ -10,11 +10,11 @@ import { constructorBurgerReducer } from './slices/constructorBurger/constructor
 import { orderReducer } from './slices/orderSlice/orderSlice';
 
 import { orderUsersReduce } from './slices/orderUsersSlice/orderUsersSlice';
-import { userReducer } from './slices/user/userSlice';
+import { userReducer } from './slices/user/authSlice';
 import { feedReducer } from './slices/feedSlice/feedSlice';
 import { orderInfoReducer } from './slices/orderInfo/orderInfoSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burgerConstructor: constructorBurgerReducer,
   order: orderReducer,

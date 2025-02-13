@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient } from '@utils-types';
+import { v4 as uuidv4 } from 'uuid';
 
 // Функция для генерации уникального идентификатора
-const generateUniqueId = () => crypto.randomUUID();
+const generateUniqueId = () => uuidv4();
 
 // Тип состояния для конструктора бургера
 type BurgerConstructorState = {

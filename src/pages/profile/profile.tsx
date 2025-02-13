@@ -1,7 +1,7 @@
 // Модуль для управления профилем пользователя
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { selectAuthUser } from '../../services/slices/user/userSlice';
+import { selectAuthUser } from '../../services/slices/user/authSlice';
 import { useDispatch, useSelector } from '../../services/store';
 import { updateUser } from '../../services/slices/user/asynk-userSlice';
 
